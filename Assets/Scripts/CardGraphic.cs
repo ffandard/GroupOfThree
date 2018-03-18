@@ -56,17 +56,17 @@ public class CardGraphic : MonoBehaviour
 	public void Select()
 	{
 		//change color to selected	
-		cardBack.color = this.cardProperties.selectedCardColor;
+		cardBack.color = cardProperties.selectedCardColor;
 	}
 
 	public void Deselect()
 	{
 		//change color to deselected	
-		cardBack.color = this.cardProperties.cardColor;
+		cardBack.color = cardProperties.cardColor;
 	}
 
 	public void Highlight()
 	{
-		cardBack.color = this.cardProperties.setCardColor;
+		cardBack.color = cardProperties.setCardColor;
 	}
 }
