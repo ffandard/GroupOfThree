@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-
 	public Deck deck;
 	public CardGraphic[] cardGraphics;
 
@@ -73,7 +72,7 @@ public class GameManager : MonoBehaviour
 		//get cardGraphics in children
 		cardGraphics = transform.GetComponentsInChildren<CardGraphic>(true);
 
-		deck = new Deck(null);
+		deck.Create();
 		deck.Shuffle();
 
 		Debug.Log("There are " + deck.cards.Count + " cards in the deck");
