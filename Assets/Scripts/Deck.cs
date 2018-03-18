@@ -5,11 +5,15 @@ using System;
 
 using UnityEngine;
 
-public class Deck
+[CreateAssetMenu(fileName = "Deck")]
+public class Deck: ScriptableObject
 {
-	public List<Card> cards;
+	[SerializeField]
+	private CardProperties cardProperties;
 
-	public Deck(CardProperties cardProperties)
+	public List<Card> cards ;
+
+	public void Create()
 	{
 		cards =
 			(from shape in cardProperties.shapeSprite

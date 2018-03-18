@@ -5,7 +5,8 @@ licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - cardProperties: {fileID: 11400000, guid: b6822fb94c7057f4290050454edb6cbb, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
