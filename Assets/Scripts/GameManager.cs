@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 			cardGraphic.Deselect();
 		}
 
-		if (selectedCards.Count == CARDS_IN_A_SET && gameManager.CheckIfSet(selectedCards))
+		if (selectedCards.Count == CARDS_IN_A_SET && gameManager.IsValidSet(selectedCards))
 		{
 			Debug.Log("set!");
 			gameManager.PlaceNewCards();
@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
 		SetsOnTable();
 	}
 
-	private bool CheckIfSet(List<CardGraphic> selectedCards)
+	private bool IsValidSet(List<CardGraphic> selectedCards)
 	{
 		int shapeValid = 0;
 		int colourValid = 0;
@@ -223,7 +223,7 @@ public class GameManager : MonoBehaviour
 					{
 						List<CardGraphic> testSet = new List<CardGraphic>{ cardGraphics[c1], cardGraphics[c2], cardGraphics[c3] };
 
-						if (CheckIfSet(testSet))
+						if (IsValidSet(testSet))
 						{
 							bool duplicate = false;
 							foreach (List<CardGraphic> set in sets)
