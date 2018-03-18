@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadScene : StateMachineBehaviour 
+public class LoadScene : StateMachineBehaviour
 {
 	private AsyncOperation sceneLoading = null;
 
-	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		sceneLoading = sceneLoading == null ? SceneManager.LoadSceneAsync("Prototype", LoadSceneMode.Additive): sceneLoading;
+		sceneLoading = sceneLoading == null ? SceneManager.LoadSceneAsync("Prototype", LoadSceneMode.Additive) : sceneLoading;
 	}
 
 	//OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		if (!sceneLoading.isDone)
-		{
+		if (!sceneLoading.isDone) {
 			animator.SetTrigger("Out");
 		}
 	}

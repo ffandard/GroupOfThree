@@ -4,10 +4,11 @@ using System;
 
 using UnityEngine;
 
-public class CardGraphic : MonoBehaviour {
-
+public class CardGraphic : MonoBehaviour
+{
 	[SerializeField] private SpriteRenderer cardBack;
 	[SerializeField] private SpriteRenderer[] graphics;
+	[SerializeField] private CardProperties cardProperties;
 
 	[NonSerialized]
 	public Card card = null;
@@ -22,7 +23,7 @@ public class CardGraphic : MonoBehaviour {
 		Color setColor = card.colour;
 		setColor.a = card.fill;
 
-		for(int s =0;s < graphics.Length; s++)
+		for (int s = 0; s < graphics.Length; s++)
 		{
 			graphics[s].sprite = card.shape;
 			graphics[s].color = setColor;
@@ -30,43 +31,42 @@ public class CardGraphic : MonoBehaviour {
 
 		setColor.a = 0f;
 			
-		switch(card.count)
+		switch (card.count)
 		{
-		case 1:
-			graphics[0].color = setColor;
-			graphics[2].color = setColor;
-			break;
-		case 2:
-			graphics[1].color = setColor;
-			break;
-		case 3:
-			break;
-		default:
-			Debug.Log("Card Missing Case");
-			break;
+			case 1:
+				graphics[0].color = setColor;
+				graphics[2].color = setColor;
+				break;
+			case 2:
+				graphics[1].color = setColor;
+				break;
+			case 3:
+				break;
+			default:
+				Debug.Log("Card Missing Case");
+				break;
 		}
 	}
 
 	public void OnClicked()
 	{
-		//send message to prototype that card was clicked
-		Prototype.CardClicked(this);
+		GameManager.Instance.OnCardClicked(this);
 	}
 
 	public void Select()
 	{
 		//change color to selected	
-		cardBack.color = Prototype.instance.cardProperties.selectedCardColor;
+		cardBack.color = this.cardProperties.selectedCardColor;
 	}
 
 	public void Deselect()
 	{
 		//change color to deselected	
-		cardBack.color = Prototype.instance.cardProperties.cardColor;
+		cardBack.color = this.cardProperties.cardColor;
 	}
 
 	public void Highlight()
 	{
-		cardBack.color = Prototype.instance.cardProperties.setCardColor;
+		cardBack.color = this.cardProperties.setCardColor;
 	}
 }
