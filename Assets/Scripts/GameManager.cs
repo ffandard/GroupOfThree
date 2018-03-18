@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
 		deck.Create();
 		deck.Shuffle();
 
-		Debug.Log("There are " + deck.cards.Count + " cards in the deck");
+		Debug.Log("There are " + deck.GetCardCount() + " cards in the deck");
 
 		DisplayCards();
 		SetsOnTable();
@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (Input.GetKey(KeyCode.Space))
 		{
-			Debug.Log(deck.cards.Count);
+			Debug.Log(deck.GetCardCount());
 		}
 
 		if (Input.GetKeyDown(KeyCode.Q) || Input.touchCount == 2)
@@ -105,38 +105,39 @@ public class GameManager : MonoBehaviour
 
 	private void DisplayCards()
 	{
-		foreach (CardGraphic graphic in cardGraphics)
+		foreach (CardGraphic cardGraphic in cardGraphics)
 		{
-			graphic.card = deck.cards[0];
-			deck.cards.Remove(deck.cards[0]);
-
-			graphic.SetGraphics();
+			Card card = deck.GetCardByIndex(0);
+			cardGraphic.card = card;
+			deck.RemoveCard(card);
+			cardGraphic.SetGraphics();
 		}
 	}
 
 
 	private void PlaceNewCards()
 	{
-		foreach (CardGraphic graphic in cardGraphics)
+		foreach (CardGraphic cardGraphic in cardGraphics)
 		{
-			if (graphic != null)
+			if (cardGraphic != null)
 			{
-				graphic.Deselect();
+				cardGraphic.Deselect();
 			}
 		}
 
-		foreach (CardGraphic graphic in selectedCards)
+		foreach (CardGraphic cardGraphic in selectedCards)
 		{
-			graphic.Deselect();
+			cardGraphic.Deselect();
 			if (!deck.IsEmpty())
 			{
-				graphic.card = deck.cards[0];
-				deck.cards.Remove(deck.cards[0]);
-				graphic.SetGraphics();
+				Card card = deck.GetCardByIndex(0);
+				cardGraphic.card = card;
+				deck.RemoveCard(card);
+				cardGraphic.SetGraphics();
 			}
 			else
 			{
-				graphic.transform.gameObject.SetActive(false);
+				cardGraphic.transform.gameObject.SetActive(false);
 			}
 		}
 
