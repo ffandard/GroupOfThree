@@ -17,8 +17,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	public Deck deck;
-	public CardGraphic[] cardGraphics;
-
+	public List<CardGraphic> cardGraphics = new List<CardGraphic>();
 	private List<CardGraphic> selectedCards = new List<CardGraphic>();
 	private List<List<CardGraphic>> sets = new List<List<CardGraphic>>();
 
@@ -69,8 +68,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		//get cardGraphics in children
-		cardGraphics = transform.GetComponentsInChildren<CardGraphic>(true);
+		cardGraphics = transform.GetComponentsInChildren<CardGraphic>(true).ToList();
 
 		deck.Create();
 		deck.Shuffle();
@@ -137,7 +135,9 @@ public class GameManager : MonoBehaviour
 			}
 			else
 			{
-				cardGraphic.transform.gameObject.SetActive(false);
+				SpriteRenderer renderer = cardGraphic.GetComponent<Renderer>() as SpriteRenderer;
+				renderer.color = Color.clear;
+				cardGraphics.Remove(cardGraphic);
 			}
 		}
 
@@ -192,7 +192,7 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log("Attempting to highlight sets");
 
-		if (cardGraphics.Length < 3)
+		if (cardGraphics.Count < CARDS_IN_A_SET)
 		{
 			return;
 		}
@@ -200,46 +200,18 @@ public class GameManager : MonoBehaviour
 		debugSet = 0;
 		sets.Clear();
 
-		for (int c1 = 0; c1 < cardGraphics.Length; c1++)
+
+		for (int c1 = 0; c1 < cardGraphics.Count; c1++)
 		{
-			if (!cardGraphics[c1].gameObject.activeSelf)
+			for (int c2 = c1 + 1; c2 < cardGraphics.Count; c2++)
 			{
-				continue;
-			}
-			for (int c2 = 0; c2 < cardGraphics.Length; c2++)
-			{
-				if (!cardGraphics[c2].gameObject.activeSelf)
+				for (int c3 = c2 + 1; c3 < cardGraphics.Count; c3++)
 				{
-					continue;
-				}
-				for (int c3 = 0; c3 < cardGraphics.Length; c3++)
-				{				
-					if (!cardGraphics[c3].gameObject.activeSelf)
+					List<CardGraphic> testSet = new List<CardGraphic>{ cardGraphics[c1], cardGraphics[c2], cardGraphics[c3] };
+
+					if (IsValidSet(testSet))
 					{
-						continue;
-					}
-
-					if (c1 != c2 && c2 != c3 && c3 != c1)
-					{
-						List<CardGraphic> testSet = new List<CardGraphic>{ cardGraphics[c1], cardGraphics[c2], cardGraphics[c3] };
-
-						if (IsValidSet(testSet))
-						{
-							bool duplicate = false;
-							foreach (List<CardGraphic> set in sets)
-							{
-								if (set.Contains(cardGraphics[c1]) && set.Contains(cardGraphics[c2]) && set.Contains(cardGraphics[c3]))
-								{
-									duplicate = true;
-								}
-							}
-
-							if (!duplicate)
-							{
-								sets.Add(testSet);
-							}
-
-						}
+						sets.Add(testSet);
 					}
 				}
 			}
