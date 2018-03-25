@@ -105,12 +105,12 @@ public class GameManager : MonoBehaviour
 			Debug.Log(deck.GetCardCount());
 		}
 
-		if (Input.GetKeyDown(KeyCode.Q) || Input.touchCount == 2)
+		if (Input.GetKeyDown(KeyCode.Q) || (Input.touchCount == 2 && Input.GetTouch(2).phase == TouchPhase.Began))
 		{
 			HighlightSet();
 		}
 
-		if (Input.GetKeyDown(KeyCode.W) || Input.touchCount >= 3)
+		if (Input.GetKeyDown(KeyCode.W) || (Input.touchCount == 3 && Input.GetTouch(3).phase == TouchPhase.Began))
 		{
 			HighlightSet(true);
 		}
