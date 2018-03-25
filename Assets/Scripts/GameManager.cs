@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
 	}
 
 
-	private void StartNewGame ()
+	private void StartNewGame()
 	{
 		cardGraphics = transform.GetComponentsInChildren<CardGraphic>(true).ToList();
 
@@ -152,6 +152,16 @@ public class GameManager : MonoBehaviour
 
 		selectedCards.Clear();
 		SetsOnTable();
+
+		if (IsGameOver())
+		{
+			StartNewGame();
+		}
+	}
+
+	private bool IsGameOver()
+	{
+		return (sets.Count == 0 || deck.IsEmpty());
 	}
 
 	private bool IsValidSet(List<CardGraphic> selectedCards)
