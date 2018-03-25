@@ -1,13 +1,11 @@
-﻿Shader "Fred/Sprites/sdf-splitRGB-colourable"
+﻿Shader "Fred/Sprites/sdf-splitRGB-colourable-shadowed"
 {
 	Properties
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_SDFDistance ("SDF Distance (default 16)", Float) = 16
 		_Softness ("Softness", Range(0,1)) = 0
-		[KeywordEnum(combined, sequencial)] _AlphaRGBmult ("Sprite alpha controls sdf offset", Float) = 0
-		[MaterialToggle] _Shadow ("Shadow", Float) = 0
-		_ShadowDistance ("Shadow Distance", Range(0,1)) = 0
+		_ShadowDistance ("Shadow Blur", Range(0,1)) = 0
 		[HideInInspector] _RendererColor ("RendererColor", Color) = (1,1,1,1)
 		[HideInInspector] _Flip ("Flip", Vector) = (1,1,1,1)
 		[PerRendererData] _AlphaTex ("External Alpha", 2D) = "white" {}
@@ -37,7 +35,6 @@
 			#pragma fragment Frag
 			#pragma target 2.0
 
-			#pragma multi_compile __ _ALPHARGBMULT_COMBINED _ALPHARGBMULT_SEQUENCIAL _SHADOW_ON
 			#include "UnitySprites.cginc"
 
 			struct simplev2f
@@ -78,36 +75,24 @@
 				float factor = _SDFDistance *(1-_Softness);
 				float toPixels = max(1,factor * rsqrt(dx*dx+dy*dy));
 
+//				float shadowPixels = max(1,_SDFDistance* 1-_ShadowDistance*(1-IN.color.a) * rsqrt(dx*dx+dy*dy));
+//				//sdfShadow *= color.a;
+//				sdfShadow = saturate((sdfShadow-0.6) * shadowPixels + 0.8);
+//				sdfShadow = float4 (0,0,0,sdfShadow.r);
+//				sdfShadow *= sdfShadow;
+//				sdfShadow *= sdfShadow;
 
-				float shadowPixels = max(1,_SDFDistance* 1-_ShadowDistance*(1-IN.color.a) * rsqrt(dx*dx+dy*dy));
-				//sdfShadow *= color.a;
-				sdfShadow = saturate((sdfShadow-0.6) * shadowPixels + 0.8);
-				sdfShadow = float4 (0,0,0,sdfShadow.r);
-				sdfShadow *= sdfShadow;
-				sdfShadow *= sdfShadow;
+				sdf = saturate((sdf-0.5) *toPixels +0.5);
+				color.a = saturate(sdf.r + sdf.g + sdf.b);
 
-
-				#ifdef _ALPHARGBMULT_COMBINED
-					//sdf *= color.a;
-					//convert sdf to antialiased solid shape
-					sdf = saturate((sdf-0.5) *toPixels +0.5);
-					color.a = saturate(sdf.r + sdf.g + sdf.b);
-					//addShadow
-					sdfShadow.rgb = saturate(sdfShadow.rgb + color.a*color.rgb);
-					sdfShadow.a = saturate(sdfShadow.a+color.a);
-					color = sdfShadow;
-				#else
-					#ifdef _ALPHARGBMULT_SEQUENCIAL
-						sdf.rgb *= min(1,float3(color.a*3, color.a*3-1,color.a*3-2));
-						sdf = saturate((sdf-0.5) *toPixels +0.5);
-						color.a = saturate(sdf.r + sdf.g + sdf.b);
-					#else
-						sdf = saturate((sdf-0.5) *toPixels +0.5);
-						color.a *= saturate(sdf.r + sdf.g + sdf.b);
-					#endif
-				#endif
+				fixed shadowBlur = _ShadowDistance;//toPixel;
+				sdfShadow -= 1; 
+				sdfShadow = saturate((sdfShadow-0.5) * shadowBlur +0.5);
+				sdfShadow.a = saturate(sdfShadow.r + color.a);
+				sdfShadow.rgb = color.rgb * color.a;
 
 
+				color = sdfShadow;
 
 				color.rgb *= color.a;
 

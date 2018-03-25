@@ -1,0 +1,1 @@
+Group Of Three is a match three card game. Cards have 4 properties. A group of three cards are a match if each property is the same for all cards or unique to each card. 
