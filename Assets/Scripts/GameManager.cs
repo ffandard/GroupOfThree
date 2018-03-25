@@ -68,6 +68,13 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		StartNewGame();
+		SetsOnTable();
+	}
+
+
+	private void StartNewGame ()
+	{
 		cardGraphics = transform.GetComponentsInChildren<CardGraphic>(true).ToList();
 
 		deck.Create();
@@ -76,7 +83,6 @@ public class GameManager : MonoBehaviour
 		Debug.Log("There are " + deck.GetCardCount() + " cards in the deck");
 
 		DisplayCards();
-		SetsOnTable();
 	}
 
 	#if UNITY_EDITOR
@@ -96,6 +102,10 @@ public class GameManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.W) || Input.touchCount >= 3)
 		{
 			HighlightSet(true);
+		}
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			StartNewGame();
 		}
 	}
 
@@ -135,8 +145,7 @@ public class GameManager : MonoBehaviour
 			}
 			else
 			{
-				SpriteRenderer renderer = cardGraphic.GetComponent<Renderer>() as SpriteRenderer;
-				renderer.color = Color.clear;
+				cardGraphic.Hide();
 				cardGraphics.Remove(cardGraphic);
 			}
 		}

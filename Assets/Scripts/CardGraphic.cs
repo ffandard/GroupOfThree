@@ -8,6 +8,7 @@ public class CardGraphic : MonoBehaviour
 {
 	[SerializeField] private SpriteRenderer cardBack;
 	[SerializeField] private SpriteRenderer[] graphics;
+	[SerializeField] private BoxCollider2D collider;
 	[SerializeField] private CardProperties cardProperties;
 
 	[NonSerialized]
@@ -15,10 +16,14 @@ public class CardGraphic : MonoBehaviour
 
 	public void SetGraphics()
 	{
+		
 		if (card == null)
 		{
 			return;
 		}
+
+		collider.enabled = true;
+		Deselect();
 
 		Color setColor = card.colour;
 		setColor.a = card.fill;
@@ -68,5 +73,16 @@ public class CardGraphic : MonoBehaviour
 	public void Highlight()
 	{
 		cardBack.color = cardProperties.setCardColor;
+	}
+
+	public void Hide()
+	{
+		foreach(SpriteRenderer graphic in graphics)
+		{
+			graphic.color = Color.clear;
+		}
+
+		cardBack.color = Color.clear;
+		collider.enabled = false;
 	}
 }

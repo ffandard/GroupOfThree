@@ -5,7 +5,8 @@ licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - deck: {fileID: 11400000, guid: f94dae8ecb746e0419c14d3a457f1ff8, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
