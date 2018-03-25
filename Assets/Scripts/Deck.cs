@@ -38,7 +38,7 @@ public class Deck: ScriptableObject
 
 	public bool IsEmpty()
 	{
-		return Cards.Count <= 0;
+		return Cards.Count == 0;
 	}
 
 	public int GetCardCount()
