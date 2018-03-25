@@ -267,22 +267,25 @@ public class GameManager : MonoBehaviour
 			Debug.Log("Found all sets, looping back to first set");
 		}
 
+		selectedCards.Clear();
+
+		foreach (CardGraphic cardGraphic in cardGraphics)
+		{
+			cardGraphic.Deselect();
+		}
+			
 		if (collect)
 		{
-			selectedCards = sets[debugSet];
-			Debug.Log("set!");
-			PlaceNewCards();
+			foreach(CardGraphic cardGraphic in sets[debugSet])
+			{
+				OnCardClicked(cardGraphic);
+			}
 		}
 		else
 		{
-			foreach (CardGraphic graphic in cardGraphics)
+			foreach (CardGraphic cardGraphic in sets[debugSet])
 			{
-				graphic.Deselect();
-			}
-
-			foreach (CardGraphic graphic in sets[debugSet])
-			{
-				graphic.Highlight();
+				cardGraphic.Highlight();
 			}
 
 			debugSet++;

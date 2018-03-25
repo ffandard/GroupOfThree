@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System;
 
+
 using UnityEngine;
 
 public class CardGraphic : MonoBehaviour
 {
 	[SerializeField] private SpriteRenderer cardBack;
 	[SerializeField] private SpriteRenderer[] graphics;
-	[SerializeField] private BoxCollider2D collider;
 	[SerializeField] private CardProperties cardProperties;
 
 	[NonSerialized] public Card card = null;
 
-	private enum state {Deselected, Selected};
+	private Collider2D boxCollider;
+
+	private void Awake()
+	{
+		boxCollider = gameObject.GetComponent<BoxCollider2D>();
+	}
 
 	public void SetGraphics()
 	{
@@ -22,9 +27,6 @@ public class CardGraphic : MonoBehaviour
 		{
 			return;
 		}
-
-		collider.enabled = true;
-		Deselect();
 
 		Color setColor = card.colour;
 		setColor.a = card.fill;
@@ -52,6 +54,9 @@ public class CardGraphic : MonoBehaviour
 				Debug.Log("Card Missing Case");
 				break;
 		}
+
+		boxCollider.enabled = true;
+		Deselect();
 	}
 
 	public void OnClicked()
@@ -61,7 +66,8 @@ public class CardGraphic : MonoBehaviour
 
 	public void Select()
 	{
-		//change color to selected	
+		//change color to selected
+
 		cardBack.color = cardProperties.selectedCardColor;
 	}
 
@@ -84,6 +90,6 @@ public class CardGraphic : MonoBehaviour
 		}
 
 		cardBack.color = Color.clear;
-		collider.enabled = false;
+		boxCollider.enabled = false;
 	}
 }
