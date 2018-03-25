@@ -77,8 +77,6 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		StartNewGame();
-		SetsOnTable();
-		UpdateSetCount();
 	}
 
 
@@ -94,6 +92,8 @@ public class GameManager : MonoBehaviour
 		DisplayCards();
 
 		setCount = 0;
+		UpdateSetCount();
+		SetsOnTable();
 	}
 
 	#if UNITY_EDITOR
