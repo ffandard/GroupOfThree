@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class GameManager : MonoBehaviour
 	public List<CardGraphic> cardGraphics = new List<CardGraphic>();
 	private List<CardGraphic> selectedCards = new List<CardGraphic>();
 	private List<List<CardGraphic>> sets = new List<List<CardGraphic>>();
+
+	public Text setCountText;
+	public string setCountFormat;
+	private int setCount;
 
 	private int debugSet = 0;
 
@@ -48,6 +53,9 @@ public class GameManager : MonoBehaviour
 		if (selectedCards.Count == CARDS_IN_A_SET && gameManager.IsValidSet(selectedCards))
 		{
 			Debug.Log("set!");
+
+			setCount++;
+			UpdateSetCount();
 			gameManager.PlaceNewCards();
 		}
 	}
@@ -70,6 +78,7 @@ public class GameManager : MonoBehaviour
 	{
 		StartNewGame();
 		SetsOnTable();
+		UpdateSetCount();
 	}
 
 
@@ -83,6 +92,8 @@ public class GameManager : MonoBehaviour
 		Debug.Log("There are " + deck.GetCardCount() + " cards in the deck");
 
 		DisplayCards();
+
+		setCount = 0;
 	}
 
 	#if UNITY_EDITOR
@@ -107,6 +118,11 @@ public class GameManager : MonoBehaviour
 		{
 			StartNewGame();
 		}
+	}
+
+	private void UpdateSetCount()
+	{
+		setCountText.text = String.Format(setCountFormat, setCount);
 	}
 
 	#endif
