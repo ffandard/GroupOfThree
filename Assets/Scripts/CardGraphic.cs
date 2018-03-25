@@ -11,8 +11,9 @@ public class CardGraphic : MonoBehaviour
 	[SerializeField] private BoxCollider2D collider;
 	[SerializeField] private CardProperties cardProperties;
 
-	[NonSerialized]
-	public Card card = null;
+	[NonSerialized] public Card card = null;
+
+	private enum state {Deselected, Selected};
 
 	public void SetGraphics()
 	{
