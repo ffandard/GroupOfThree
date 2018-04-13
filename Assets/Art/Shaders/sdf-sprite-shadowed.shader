@@ -75,22 +75,16 @@
 				float factor = _SDFDistance *(1-_Softness);
 				float toPixels = max(1,factor * rsqrt(dx*dx+dy*dy));
 
-//				float shadowPixels = max(1,_SDFDistance* 1-_ShadowDistance*(1-IN.color.a) * rsqrt(dx*dx+dy*dy));
-//				//sdfShadow *= color.a;
-//				sdfShadow = saturate((sdfShadow-0.6) * shadowPixels + 0.8);
-//				sdfShadow = float4 (0,0,0,sdfShadow.r);
-//				sdfShadow *= sdfShadow;
-//				sdfShadow *= sdfShadow;
 
 				sdf = saturate((sdf-0.5) *toPixels +0.5);
 				color.a = saturate(sdf.r + sdf.g + sdf.b);
 
-				fixed shadowBlur = _ShadowDistance;//toPixel;
-				sdfShadow -= 1; 
-				sdfShadow = saturate((sdfShadow-0.5) * shadowBlur +0.5);
+				fixed shadowBlur = (1-_ShadowDistance)*10 +1;
+				sdfShadow;
+				sdfShadow = saturate((sdfShadow-0.5) * shadowBlur+0.5);
 				sdfShadow.a = saturate(sdfShadow.r + color.a);
+				sdfShadow.a *= sdfShadow.a;
 				sdfShadow.rgb = color.rgb * color.a;
-
 
 				color = sdfShadow;
 

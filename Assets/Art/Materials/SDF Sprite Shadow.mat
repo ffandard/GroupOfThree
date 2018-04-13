@@ -81,7 +81,7 @@ Material:
     - _Parallax: 0.02
     - _SDFDistance: 4.37
     - _Shadow: 0
-    - _ShadowDistance: 0.431
+    - _ShadowDistance: 0.911
     - _SmoothnessTextureChannel: 0
     - _Softness: 0
     - _SpecularHighlights: 1

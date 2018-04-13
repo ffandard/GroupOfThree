@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d35d28321c9e134e8ec9ddd9abd3a96, type: 3}
   m_Name: CardProperties
   m_EditorClassIdentifier: 
-  cardColor: {r: 0.9490701, g: 0.9632353, b: 0.9490701, a: 1}
+  cardColor: {r: 0.93479675, g: 0.9558824, b: 0.93479675, a: 1}
   setCardColor: {r: 0.5268166, g: 0.85294116, b: 0.85294116, a: 0.866}
   selectedCardColor: {r: 1, g: 1, b: 1, a: 0.259}
   shapeCount: 010000000200000003000000

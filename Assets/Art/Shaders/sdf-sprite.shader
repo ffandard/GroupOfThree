@@ -81,7 +81,9 @@
 					#ifdef _ALPHARGBMULT_SEQUENCIAL
 						sdf.rgb *= min(1,float3(color.a*3, color.a*3-1,color.a*3-2));
 						sdf = saturate((sdf-0.5) *toPixels +0.5);
-						color.a = saturate(sdf.r + sdf.g + sdf.b);
+						color.a  = max(sdf.r, sdf.g);
+						color.a = max(color.a, sdf.b);
+						//color.a = saturate(sdf.r + sdf.g + sdf.b);
 					#else
 						sdf = saturate((sdf-0.5) *toPixels +0.5);
 						color.a *= saturate(sdf.r + sdf.g + sdf.b);
