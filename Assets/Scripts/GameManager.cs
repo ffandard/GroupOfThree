@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 			Debug.Log("set!");
 
 			setCount++;
-			UpdateSetCount();
+			gameManager.UpdateSetCount();
 			gameManager.PlaceNewCards();
 		}
 	}
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 		SetsOnTable();
 	}
 
-	#if UNITY_EDITOR
+	//#if UNITY_EDITOR
 
 	private void Update()
 	{
@@ -105,12 +105,12 @@ public class GameManager : MonoBehaviour
 			Debug.Log(deck.GetCardCount());
 		}
 
-		if (Input.GetKeyDown(KeyCode.Q) || (Input.touchCount == 2 && Input.GetTouch(2).phase == TouchPhase.Began))
+		if (Input.GetKeyDown(KeyCode.Q) || (Input.touchCount == 2 && Input.GetTouch(1).phase == TouchPhase.Began))
 		{
 			HighlightSet();
 		}
 
-		if (Input.GetKeyDown(KeyCode.W) || (Input.touchCount == 3 && Input.GetTouch(3).phase == TouchPhase.Began))
+		if (Input.GetKeyDown(KeyCode.W) || (Input.touchCount == 3 && Input.GetTouch(2).phase == TouchPhase.Began))
 		{
 			HighlightSet(true);
 		}
@@ -120,12 +120,14 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	//#endif
+
 	private void UpdateSetCount()
 	{
 		setCountText.text = String.Format(setCountFormat, setCount);
 	}
 
-	#endif
+
 
 	private void DisplayCards()
 	{
